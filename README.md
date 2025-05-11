@@ -52,6 +52,99 @@ Some data could not be upload to the github due to its weight so it is stored in
 LINK: https://drive.google.com/drive/folders/1F5ATLNVgeNH7yDYWsC51JjqTTGtzj-En?usp=sharing
 
 ---
+## 1. Introduction 
+For this project, we conducted an analysis of the public perception of the current Spanish political situation. To achieve our goal, we first needed the datasets from which we were going to start working, which was made possible with a dataset we scraped from the subreddit r/SpainPolitics (https://www.redit.com/r/SpainPolitics/), the main reason why we have chosen this subreddit is due to its size, as it covers a wide range of members from a community which began in 2019, which is the second main reason that made us select this dataset, as it contains one of the most heated moments in recent history of our country. Here we can find topics such as the global pandemic we all suffered back in 2020, COVID-19, we can also find comments about the Ukrainian war that started in february 2022, that has a notable impact in our lives and more recent aspects of our daily life, like the Tariff War, started by the president of the United States of America or the legal cases from the wife of the President of Spain. In order to ensure that we were able to provide an unbiased source of information, we checked that the community had active moderation and guidelines. The primary goal we aim to achieve is to analyze shifts in the general public sentiment over those complicated periods.
+
+If we wanted to make the classification of the collected Reddit text possible, we previously had to train a multi-label classifier, which is designed to give us as output one of the six different emotion categories: sadness, Joy, Anger, Surprise, Love, and Fear. Moreover, as we needed a dataset to first train the classifier, which was obtained from the prelabelled dair-ai/emotion dataset that can be found on Hugging Face (https://huggingface.co/datasets/dair-ai/emotion). 
+
+Finally, the architecture for our classifier, which was chosen, was an LSTM neural network augmented with an attention mechanism. We came to the conclusion that this approach, as the attention mechanism, represents a State-of-the-Art (SOTA) technique in natural language preprocessing, which we thought would significantly enhance the model´s ability to focus on the most relevant parts of the text for accurate emotion classification in this context. 
+
+Disclaimer: 
+
+As politics tends to typically be a sensitive subject, we have tried to be as objective as we possibly can be. The authors of this work have made every effort within their power to ensure neutrality during this analysis from the beginning by recollecting data until the very end, with the interpretation of the results. No personal or political beliefs have been expressed or endorsed by any member of the team in this report. Any opinions that may have been inferred from the results are a reflection of the analyzed content and not of the team conducting the analysis.
+![alt text](images/AML.jpg)
+
+
+# Task 1
+## 2. Data Collection & Preprocessing
+### 2.1 Reddit Dataset
+As it was stated before, we were going to use three datasets, from where two datasets were obtained from Hugging Face, and the remaining one from Reddit, using the Reddit´s API tool for Python: praw (https://praw.readthedocs.io/en/stable/). 
+
+#### 2.1.1 Collection
+During this phase, we utilized the praw library to collect post and their comments from the subreddit r/SpainPolitics. It authenticates using API credentials and retrieves up to 10.000 posts, storing each post´s metadata (ID, score, timestamp, and content) in a list. It then gathers all the associated comments for each post and appends their details similarly.
+The collected data is then converted into a Pandas DataFrame, where each entry is labeled as either a post or comment. Finally, it filters the data to retain only those posts or comments between 6 and 250 words, preparing it for further analysis.
+
+#### 2.1.2 Translation
+Once we have obtained the raw text, we encountered a major problem, and that being that most of the text we have scraped is in Spanish, and the text available in the second dataset, which is going to be used to train the classifier, is in English, so in order to obtain better and more coherent results we decided to translate each one of the 17k documents.
+
+To carry out this task, we loaded a Transformer model from Hugging Face, the Helsinki-NLP/opus-my-es-en (https://huggingface.co/Helsinki-NLP/opus-mt-es-en). We ran the model locally and translated all the text. We decided to go with this option as transformers are State-Of-The-Art models, and we wanted to achieve the best results for our project while ensuring that common expressions were not lost in the translation process of the text.
+Here is an example of how the final structure of the scraped text from Reddit looks:
+
+![alt text](images/translation.png)
+
+Then, we applied the cleaning and proper tokenization techniques to the text in Spanish, the SpaCy model: es_core_news_md. Here, we wanted to get rid of expressions that contained characters that would affect the process, furthermore, we turned the whole text into lowercase, and finally, we left only the lemma of the words to group semantically similar words, which helps to reduce the feature space and consolidates the word's meaning.
+### 2.2 Training Dataset
+
+As it was mentioned before, we have used a pre-labelled dataset that will be used later on for the training of our models. The structure of this dataset is the following:
+
+
+A splitted (20K rows) and an unsplitted (144K rows) version. For our project, we ended up using the splitted versions, as our machines could not handle the training process with a bigger dataset in a reasonable amount of time. This dataset is divided into 3 parts:
+
+
+- Train: 16K rows
+- Validation: 2K rows
+- Test: 2K rows
+
+Also, one of the main reasons why we have chosen this dataset is due to its diverse range of emotions, as it is capable of capturing more than the usual positive/negative sentiment analysis datasets available. The emotions are:
+
+- 0 -> Sadness
+- 1 -> Joy
+- 2 -> Love
+- 3 -> Anger
+- 4 -> Fear
+- 5 -> Surprise
+
+We then save the lengths of each of the sets for later, as now we want to make a full dataset that will be used later on to obtain both the final corpus and vocabulary for the text representations.
+
+## 3. Text Vectorization
+For this next part, we have structured it in the following way:
+
+- Classical BoW and TF-IDF representation
+- Word2Vec and FastText-based representation that gives us word embeddings.
+- Extraction of themes and vector representation of the Reddit documents using the LDA algorithm.
+
+Each of the mentioned sections is divided into two subsections, the first being the computation of the representation the second one its visualization. As we want to train a model with the labelled dataset to then predict the labels of the unlabelled one, we should make a dictionary that uses all the words present in both datasets.
+
+
+Both BoW and TF-IDF are made for normal classifiers such as Support Vector Machine, Random Forest and K-means. While Word2Vec and FastText create embedding for each of the words
+
+We created the corpus by combining all tokens from fullDF and redditData. The size of this corpus is 30882 documents where all are used in order when doing the classification there are not words out of vocabulary and there is context of everything. In this dictionary there are 21991 unique terms.
+
+### 3.1 Bag-Of-Words
+
+Our BoW is done using ‘doc2bow’ from gensim. When doing it for the entire corpus, we obtain the work cloud and top words in the corpus seen below. It makes sense that the most used words are the kinds of feel, like, know, or people. This is because, as we are using data from people showing their feelings, it is clear that they express themselves using that kind of language.
+
+
+
+
+### 3.2 TF-IDF 
+
+In this case, TF-IDF is done with ‘TfidfModel’ from gensim.models. We do it with the data bag of words and when we represent it we get a similar word cloud. For the barchart, we decided to analyze a specific example. In this case we selected document 4884, we can see in the graph that the top terms of this document are font, san, color and bitstream.
+
+
+### 3.3 Word2Vec
+
+We use the function Word2Vec from gensim.models. We use the full corpus with a vector size of 200, which means that each embedding will have 200 variables to represent it. We also put a min count of 10 in order to appear at least 10 times and a window of 5. We can then explore the most_similar function for different terms, it will appear that those terms where the embedding is closest to the one introduced. If we, for example, try “sánchez”, there will appear words of the like of pedro, corrupt or president, which makes sense. Later, we did a TSNE to see where each word would be in the graph based on similarity. It can be seen below.
+
+### 3.4 FastText
+
+For this, we used the function FastText from gensim.models. FastText is very similar to Word2Vec, the only difference is that it is possible to obtain the embeddings of a word, no matter if that word is not in the corpus, because it learns embeddings for character subwords and composes them to form the word’s vector. In this case, we also use a vector size of 200, a min count of 10, and a window size of 5 in order to obtain the same format as with Word2Vec. If we here try the most_similar function with the word “sanchéz”, it will appear terms such as authorize, apology, or racism. These are the terms that our FastText believe are most similar to Sánchez. Finally, we created a TSNE, which can be seen below.
+
+### 3.5 Theme Extraction
+For this last section of task 1, we have focused on obtaining the topics from our Reddit dataset, as it is a problem that does not require any label, and it is more convenient to obtain relevant topics from this dataset. Therefore, the corpus is only done with information from the redditData. We created a coherence dictionary to find out what number of topics that would have more coherence. The function proposes 5, but we use 10 in order to have more explainability. We can explore the most relevant words per term, which can be seen in the next wordcloud.
+
+We can detect current trending topics in the political sphere of Spain as topic3 can be related to problems with the current goverment like the rise of prices, for topic 5 might be related to the elections in 2023 as it mentions the words "vote", "pp" and "psoe" which are the main political parties in Spain, topic 6 can be related to the housing problem that most of Spain is facing right now and topic 10 is related to the recent scandal of President Pedro Sanchez wife Begoña Gómez.
+
 
 
 # Task 2
