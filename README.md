@@ -318,7 +318,8 @@ Some of the main problems we faced during the development of this project were t
 * Handling the representations as our datasets were so big our machines could not always support that many data at the same time so we had to remove them and load them when necessary
 * Overall technical limitations: As we wanted to make a project that could display the use of current SOTA technologies like attention mechanisms and transformers most of the heavy work was made in 2 machines with 16 Gb of RAM both and GPUS: RTX 3060 and RTX 4060 which lacked the power to handle a bigger dataset for training our models and translating the a much bigger dataset in spanish.
 
-Even though we faced all these problems and limitations we believe this project can showcase how important NLP and ML can be to understanding the world we live in.
+Even though we faced all these problems and limitations we believe this project can showcase how important NLP and ML can be to understanding the world we live in.\
+We hope you enjoyed our project as much as we enjoyed developing it.
 
 ## 7. Acknowledgement of authorship
 
@@ -326,8 +327,4 @@ The code developed for this project was created entirely by our team. However, w
 
 We have also used Generative AI tools during development (ChatGPT) primarily to assist us  with debugging and improving the visual presentation of our plots. The core structure, logic, and data visualizations were developed by us.
 
-Additionally, we incorporated code snippets and examples from the official Dash documentation to support the development of our interactive dashboard. All external materials have been properly adapted and integrated within the context of our original work.\
-We hope you enjoyed our project as much as we enjoyed developing it.
-
-## 8. References
-
+Additionally, we incorporated code snippets and examples from the official Dash documentation to support the development of our interactive dashboard. All external materials have been properly adapted and integrated within the context of our original work.
