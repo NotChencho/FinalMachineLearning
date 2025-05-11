@@ -70,7 +70,7 @@ As politics tends to typically be a sensitive subject, we have tried to be as ob
 # Task 1
 ## 2. Data Collection & Preprocessing
 ### 2.1 Reddit Dataset
-As it was stated before, we were going to use three datasets, from where two datasets were obtained from Hugging Face, and the remaining one from Reddit, using the Reddit´s API tool for Python: praw (https://praw.readthedocs.io/en/stable/). 
+As it was stated before, we were going to use two datasets, from where one was obtained from Hugging Face, and the other  one from Reddit, using the Reddit´s API tool for Python: praw (https://praw.readthedocs.io/en/stable/). 
 
 #### 2.1.1 Collection
 During this phase, we utilized the praw library to collect post and their comments from the subreddit r/SpainPolitics. It authenticates using API credentials and retrieves up to 10.000 posts, storing each post´s metadata (ID, score, timestamp, and content) in a list. It then gathers all the associated comments for each post and appends their details similarly.
