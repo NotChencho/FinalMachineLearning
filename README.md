@@ -123,7 +123,8 @@ We created the corpus by combining all tokens from fullDF and redditData. The si
 ### 3.1 Bag-Of-Words
 
 Our BoW is done using ‘doc2bow’ from gensim. When doing it for the entire corpus, we obtain the work cloud and top words in the corpus seen below. It makes sense that the most used words are the kinds of feel, like, know, or people. This is because, as we are using data from people showing their feelings, it is clear that they express themselves using that kind of language.
-
+![alt text](images/BoW-WordCloud.jpg)
+![alt text](images/BoW-TopWords.jpg)
 
 
 
@@ -131,21 +132,28 @@ Our BoW is done using ‘doc2bow’ from gensim. When doing it for the entire co
 
 In this case, TF-IDF is done with ‘TfidfModel’ from gensim.models. We do it with the data bag of words and when we represent it we get a similar word cloud. For the barchart, we decided to analyze a specific example. In this case we selected document 4884, we can see in the graph that the top terms of this document are font, san, color and bitstream.
 
+![alt text](images/TF-IDF-WordCloud.jpg)
+![alt text](images/TF-IDF-TopWordsExample.jpg)
 
 ### 3.3 Word2Vec
 
 We use the function Word2Vec from gensim.models. We use the full corpus with a vector size of 200, which means that each embedding will have 200 variables to represent it. We also put a min count of 10 in order to appear at least 10 times and a window of 5. We can then explore the most_similar function for different terms, it will appear that those terms where the embedding is closest to the one introduced. If we, for example, try “sánchez”, there will appear words of the like of pedro, corrupt or president, which makes sense. Later, we did a TSNE to see where each word would be in the graph based on similarity. It can be seen below.
 
+![alt text](images/Word2Vec-TSNE.jpg)
+
+
 ### 3.4 FastText
 
 For this, we used the function FastText from gensim.models. FastText is very similar to Word2Vec, the only difference is that it is possible to obtain the embeddings of a word, no matter if that word is not in the corpus, because it learns embeddings for character subwords and composes them to form the word’s vector. In this case, we also use a vector size of 200, a min count of 10, and a window size of 5 in order to obtain the same format as with Word2Vec. If we here try the most_similar function with the word “sanchéz”, it will appear terms such as authorize, apology, or racism. These are the terms that our FastText believe are most similar to Sánchez. Finally, we created a TSNE, which can be seen below.
+
+![alt text](images/FastText-TSNE.jpg)
 
 ### 3.5 Theme Extraction
 For this last section of task 1, we have focused on obtaining the topics from our Reddit dataset, as it is a problem that does not require any label, and it is more convenient to obtain relevant topics from this dataset. Therefore, the corpus is only done with information from the redditData. We created a coherence dictionary to find out what number of topics that would have more coherence. The function proposes 5, but we use 10 in order to have more explainability. We can explore the most relevant words per term, which can be seen in the next wordcloud.
 
 We can detect current trending topics in the political sphere of Spain as topic3 can be related to problems with the current goverment like the rise of prices, for topic 5 might be related to the elections in 2023 as it mentions the words "vote", "pp" and "psoe" which are the main political parties in Spain, topic 6 can be related to the housing problem that most of Spain is facing right now and topic 10 is related to the recent scandal of President Pedro Sanchez wife Begoña Gómez.
 
-
+![alt text](images/ThemeExtraction-WordCloud.jpg)
 
 # Task 2
 
