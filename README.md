@@ -48,7 +48,7 @@
 
 ---
 
-Some data could not be upload to the github due to its weight so it is stored in a drive folder with the same structure as it should be in the repository.
+Some data could not be uploaded to the github due to its weight so it is stored in a drive folder with the same structure as it should be in the repository.
 LINK: https://drive.google.com/drive/folders/1F5ATLNVgeNH7yDYWsC51JjqTTGtzj-En?usp=sharing
 
 Also a copy of this markdown file has been uploaded in pdf format to the repository in order to show that it respects the length conditions in the project statement 
