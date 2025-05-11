@@ -66,11 +66,33 @@ Then we seleceted the best model to predict the labels of our Reddit datset
 
 For this section we developed the following pipeline. First, we transformed the sparse document-term matrix into a dense format where each row represents a document and each column corresponds to a token from the vocabulary. The dataset was then split into training and testing subsets. To evaluate performance on multi-class classification, the target labels were binarized. We tested three classifiers Support Vector Machine (SVM), k-Nearest Neighbors (KNN), and Random Forest each within a GridSearchCV loop to find the optimal hyperparameters via 3-fold cross-validation. After training, the models were evaluated on the test set using accuracy and macro-averaged AUC (Area Under the ROC Curve). This process was applied to both BoW and TF-IDF representations, and the results were compiled to compare classifier performance and determine the most effective model.
 
-#### 4.1.1 BoW  
-#### 4.1.2 TF - IDF  
+#### 4.1.1 BoW 
+
+After running this pipeline with the BoW representation of our corpus we obtained the following results
+
+![alt text](images/bow-im.jpg)
+
+
+#### 4.1.2 TF - IDF
+
+With our Tf-Idf representation
+
+![alt text](images/tf-im.jpg)
+
 #### 4.1.3 Feature Extraction (PCA)
 
-Given that the results obtained from the BoW were significantly better than the those from the TF - IDF we performed PCA on the BoW representation to see if we can further enhance this results by reducing the dimensionality.
+Given that the results obtained from our TF-IDF were significantly more consistent than  those from the BoW we performed PCA on the Tf-Idf representation to see if we can further enhance this results by reducing the dimensionality.
+As we can see in the following plot the recomended number of features using the elbow method was around 20 but as the corpus had around 22k columns we thought it would be a low number of features and testing proved us right:
+
+![alt text](images/elbow.jpg)
+![alt text](images/pcabow-im.jpg)
+
+So we wanted to increase the number of features to around 1000-4000 but this was unfeasable to compute with our machines, it took a lot of time and then the training of the pipeline was incredibly slow so we ended up settling with 100 features, these are the results:
+
+![alt text](images/tfidfpca.jpg)
+
+We can see how feature extraction was not useful as it reduced the performance in the test set by a huge amount.
+With this we conclude the Classic Classification part of our Classification Task, this was made to illustrate how we can obtain good results with less complex approach like the one we performed in the next section. 
 
 ### 4.2 Classification with Attention Model
 
