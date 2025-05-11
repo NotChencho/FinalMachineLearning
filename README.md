@@ -120,7 +120,7 @@ Each of the mentioned sections is divided into two subsections, the first being 
 
 Both BoW and TF-IDF are made for normal classifiers such as Support Vector Machine, Random Forest and K-means. While Word2Vec and FastText create embedding for each of the words
 
-We created the corpus by combining all tokens from fullDF and redditData. The size of this corpus is 30882 documents where all are used in order when doing the classification there are not words out of vocabulary and there is context of everything. In this dictionary there are 21991 unique terms.
+We created the corpus by combining all tokens from the tarining dataset and the reddit dataset. The size of this corpus is 30882 documents where all are used so when doing the classification there are not words out of vocabulary and there is context of everything. In this dictionary there are 21991 unique terms.
 
 ### 3.1 Bag-Of-Words
 
