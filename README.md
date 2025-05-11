@@ -304,7 +304,9 @@ This dashboard has been divided in three parts:
 
 **Dataset Emotion Analysis**: Users can select a date range and the app will display both a plot and a piechart with the relative and absolute amounts of post classified for each emotion during that period, users can click on any of the piecharts emotions and a random post with that emotion in that time period will be shown. Next there is a time series plot of the evolution of the number of posts with each label per week. At last in this section the user can select one of the six emotions and the dashboard will display a wordcloud with the most frequent words with posts labelled with that emotion
 
-**Topic Modeling**: First Users can see a histogram showing the distribution of predominant topics across documents, it is fully interactive letting users select the topics they want to see. Finally the last functionality of our dashboard lets the user input a document index and it will display its text, the document information, its predominant topic and a wordcloud of the most relevant words in that topic  
+**Topic Modeling**: First Users can see a histogram showing the distribution of predominant topics across documents, it is fully interactive letting users select the topics they want to see. Finally the last functionality of our dashboard lets the user input a document index and it will display its text, the document information, its predominant topic and a wordcloud of the most relevant words in that topic
+
+For a more in depth look of the Dashboard Implementation you can have a look to our short demonstration at: https://youtu.be/RzlT9qfrDog 
 
 ## 6. Conclusions
 
